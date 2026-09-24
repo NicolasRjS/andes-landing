@@ -71,7 +71,7 @@
   // ---------- Financial table: inline bars ----------
   document.querySelectorAll('.fin-table tbody tr').forEach(function (row) {
     var cells = Array.prototype.slice.call(row.querySelectorAll('td'));
-    var values = cells.map(function (td) { return parseFloat(td.textContent); });
+    var values = cells.map(function (td) { return parseFloat(td.textContent.replace(/[^\d.]/g, '')); });
     var max = Math.max.apply(null, values);
     cells.forEach(function (td, i) {
       var bar = document.createElement('span');
@@ -98,7 +98,10 @@
     '.andes-position',
     '.fin-card',
     '.table-wrap',
-    '.fact'
+    '.fact',
+    '.identity-item',
+    '.compete',
+    '.mix'
   ];
   var revealEls = document.querySelectorAll(revealSelectors.join(','));
 
@@ -116,7 +119,7 @@
       if (!entry.isIntersecting) return;
       var el = entry.target;
       el.classList.add('is-visible');
-      if (el.classList.contains('table-wrap')) el.classList.add('bars-in');
+      el.classList.add('bars-in');
       revealer.unobserve(el);
       // Once revealed, drop the reveal styles so hover transitions stay snappy.
       setTimeout(function () {
